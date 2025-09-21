@@ -112,7 +112,8 @@ export function StatsSection() {
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-foreground/70 max-w-3xl mx-auto leading-relaxed px-4">
             Join thousands of companies that rely on our platform to make
-            data-driven decisions every day. See why we're the preferred choice.
+            data-driven decisions every day. See why we&apos;re the preferred
+            choice.
           </p>
         </div>
 
