@@ -214,15 +214,6 @@ export function Footer() {
               <span className="text-foreground/60 text-sm">
                 Made with ❤️ for developers
               </span>
-              <div className="flex items-center space-x-2">
-                <span className="text-foreground/60 text-sm">Powered by</span>
-                <div className="flex items-center space-x-1">
-                  <div className="w-4 h-4 bg-gradient-to-br from-primary to-secondary rounded-sm" />
-                  <span className="text-foreground/80 font-semibold text-sm">
-                    AI
-                  </span>
-                </div>
-              </div>
             </div>
           </div>
         </div>

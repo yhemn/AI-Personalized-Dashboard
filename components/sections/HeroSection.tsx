@@ -23,17 +23,17 @@ export function HeroSection() {
 
           {/* Main Heading */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-6 leading-tight px-2">
-            Transform Your Data Into
+            Your Data, Your Story
             <span className="block bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Intelligent Insights
+              Told Intelligently
             </span>
           </h1>
 
           {/* Subheading */}
           <p className="text-base sm:text-lg md:text-xl text-foreground/70 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed px-4">
-            The most powerful AI-driven dashboard that helps you make
-            data-driven decisions and unlock your business potential with
-            intelligent insights and automation.
+            Stop drowning in spreadsheets. Our AI-powered dashboard turns your
+            complex data into clear, actionable insights that actually make
+            sense. See what matters, when it matters.
           </p>
 
           {/* CTA Buttons */}
@@ -46,7 +46,7 @@ export function HeroSection() {
               endContent={<ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />}
               className="font-semibold px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg w-full sm:w-auto"
             >
-              Get Started Free
+              Start Your Journey
             </Button>
             <Button
               variant="bordered"
@@ -54,7 +54,7 @@ export function HeroSection() {
               startContent={<Play className="w-4 h-4 sm:w-5 sm:h-5" />}
               className="font-semibold px-6 py-4 sm:px-8 sm:py-6 text-base sm:text-lg border-foreground/20 hover:bg-foreground/5 w-full sm:w-auto"
             >
-              Watch Demo
+              See It In Action
             </Button>
           </div>
 

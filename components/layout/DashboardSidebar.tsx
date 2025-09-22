@@ -57,21 +57,22 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
         <div className="flex flex-col h-full py-5 px-2">
           {/* Navigation */}
           <nav className="flex-1 space-y-1 overflow-y-auto">
-            {navigation.map(item => {
+            {navigation.map((item, index) => {
               const isActive = pathname === item.href;
               return (
-                <Link key={item.name} href={item.href}>
-                  <Button
-                    variant={isActive ? 'solid' : 'light'}
-                    color={isActive ? 'primary' : 'default'}
-                    startContent={<item.icon className="h-4 w-4" />}
-                    radius={isActive ? 'lg' : 'none'}
-                    className="justify-start"
-                    fullWidth
-                  >
-                    {item.name}
-                  </Button>
-                </Link>
+                <Button
+                  key={`navigationItem-${index}`}
+                  variant={isActive ? 'solid' : 'light'}
+                  color={isActive ? 'primary' : 'default'}
+                  startContent={<item.icon className="h-4 w-4" />}
+                  radius={isActive ? 'lg' : 'none'}
+                  className="justify-start"
+                  as={Link}
+                  href={item.href}
+                  fullWidth
+                >
+                  {item.name}
+                </Button>
               );
             })}
           </nav>

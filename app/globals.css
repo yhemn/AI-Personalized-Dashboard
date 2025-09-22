@@ -28,3 +28,7 @@ body {
   @apply bg-transparent border-none;
 }
 
+[data-react-aria-pressable='true'] {
+  @apply scale-100;
+}
+
