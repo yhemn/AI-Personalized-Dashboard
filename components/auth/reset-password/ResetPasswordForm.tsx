@@ -4,30 +4,15 @@ import { PasswordInput } from '@/components/form/password-input';
 import SubmitButton from '@/components/form/submit-button';
 import { createClient } from '@/lib/supabase/client';
 import { Link } from '@heroui/react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function ResetPasswordForm() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const supabase = createClient();
-
-  useEffect(() => {
-    // Check if we have the necessary tokens in the URL
-    const accessToken = searchParams.get('access_token');
-    const refreshToken = searchParams.get('refresh_token');
-
-    if (accessToken && refreshToken) {
-      // Set the session with the tokens from the URL
-      supabase.auth.setSession({
-        access_token: accessToken,
-        refresh_token: refreshToken,
-      });
-    }
-  }, [searchParams, supabase.auth]);
 
   const handleResetPassword = async (values: validation.FormDataType) => {
     setIsLoading(true);
