@@ -2,24 +2,16 @@ import { ConfigTheme, heroui } from '@heroui/react';
 
 const colors: ConfigTheme['colors'] = {
   primary: {
-    DEFAULT: '#8b5cf6',
-    foreground: '#ffffff',
+    DEFAULT: '#2563ef',
+    foreground: '#fafafa',
   },
   secondary: {
-    DEFAULT: '#1e293b',
-    foreground: '#f8fafc',
+    DEFAULT: '#262626',
+    foreground: '#fafafa',
   },
   success: {
-    DEFAULT: '#10b981',
-    foreground: '#ffffff',
-  },
-  warning: {
-    DEFAULT: '#f59e0b',
-    foreground: '#ffffff',
-  },
-  danger: {
-    DEFAULT: '#ef4444',
-    foreground: '#ffffff',
+    DEFAULT: '#17c964',
+    foreground: '#fafafa',
   },
 };
 
@@ -28,37 +20,32 @@ export default heroui({
   themes: {
     light: {
       colors: {
-        background: '#fefefe',
-        foreground: '#0f172a',
+        background: '#ffffff',
+        foreground: '#0a0a0a',
         content1: {
-          DEFAULT: '#f1f5f9',
-          foreground: '#0f172a',
+          DEFAULT: '#eeeeee',
+          foreground: '#0a0a0a',
         },
+        divider: '#e5e5e5',
         ...colors,
       },
     },
     dark: {
       colors: {
-        background: '#0a0a0a',
-        foreground: '#f1f5f9',
+        background: '#040404',
+        foreground: '#e4e4e4',
         content1: {
-          DEFAULT: '#111827',
-          foreground: '#f1f5f9',
+          DEFAULT: '#0d0d0d',
+          foreground: '#fafafa',
         },
+        divider: '#ffffff0d',
         ...colors,
       },
     },
   },
   layout: {
     borderWidth: {
-      small: '1px',
-      medium: '2px',
-      large: '3px',
-    },
-    radius: {
-      small: '2px',
-      medium: '4px',
-      large: '6px',
+      medium: '1px',
     },
   },
 });

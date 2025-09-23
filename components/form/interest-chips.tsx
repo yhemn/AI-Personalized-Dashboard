@@ -2,7 +2,7 @@
 
 import { useForm } from '@/contexts/FormContext';
 import { Chip } from '@heroui/react';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 interface InterestChipsProps {
   name: string;
@@ -11,6 +11,7 @@ interface InterestChipsProps {
   placeholder?: string;
   maxSelections?: number;
   className?: string;
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export function InterestChips({
@@ -20,29 +21,27 @@ export function InterestChips({
   placeholder = 'Select your interests',
   maxSelections,
   className = '',
+  size = 'md',
 }: InterestChipsProps) {
   const formik = useForm();
-  const [selectedInterests, setSelectedInterests] = useState<string[]>(
-    formik.values[name] || []
-  );
-
-  useEffect(() => {
-    formik.setFieldValue(name, selectedInterests);
-  }, [selectedInterests, formik, name]);
+  const selectedInterests: string[] = useMemo(() => {
+    const value = formik.values[name];
+    return Array.isArray(value) ? (value as string[]) : [];
+  }, [formik.values, name]);
 
   const toggleInterest = (interest: string) => {
-    setSelectedInterests(prev => {
-      const isSelected = prev.includes(interest);
-
-      if (isSelected) {
-        return prev.filter(item => item !== interest);
-      } else {
-        if (maxSelections && prev.length >= maxSelections) {
-          return prev;
-        }
-        return [...prev, interest];
+    const isSelected = selectedInterests.includes(interest);
+    if (isSelected) {
+      formik.setFieldValue(
+        name,
+        selectedInterests.filter(item => item !== interest)
+      );
+    } else {
+      if (maxSelections && selectedInterests.length >= maxSelections) {
+        return;
       }
-    });
+      formik.setFieldValue(name, [...selectedInterests, interest]);
+    }
   };
 
   const isSelected = (interest: string) => selectedInterests.includes(interest);
@@ -52,7 +51,7 @@ export function InterestChips({
   return (
     <div className={`space-y-2 ${className}`}>
       {label && (
-        <label className="text-sm font-medium text-foreground">
+        <label className="text-sm font-medium text-foreground block">
           {label}
           {maxSelections && (
             <span className="text-foreground-500 ml-1">
@@ -70,6 +69,7 @@ export function InterestChips({
           return (
             <Chip
               key={interest}
+              size={size}
               variant={selected ? 'solid' : 'bordered'}
               color={selected ? 'primary' : 'default'}
               className={`cursor-pointer transition-all ${

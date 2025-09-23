@@ -8,7 +8,6 @@ export interface OnboardingFormData {
   role: 'student' | 'teacher' | 'shopper' | 'admin';
   interests: string[];
   timezone: string;
-  avatar_url?: string;
 }
 
 export type SupabaseClientType = SupabaseClient<Database>;

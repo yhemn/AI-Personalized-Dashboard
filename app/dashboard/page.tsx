@@ -12,11 +12,7 @@ import {
   Activity,
   Calendar,
   DollarSign,
-  Download,
-  FileText,
   Filter,
-  Plus,
-  Settings,
   TrendingUp,
   Users,
 } from 'lucide-react';
@@ -127,42 +123,6 @@ export default function DashboardPage() {
         label: 'Plan Feature',
         onClick: () => console.log('Plan feature'),
       },
-    },
-  ];
-
-  const quickActions = [
-    {
-      id: '1',
-      label: 'Add New Entry',
-      description: 'Create a new data entry',
-      icon: Plus,
-      onClick: () => console.log('Add new entry'),
-      variant: 'primary' as const,
-      color: 'primary' as const,
-    },
-    {
-      id: '2',
-      label: 'Generate Report',
-      description: 'Create a comprehensive report',
-      icon: FileText,
-      onClick: () => console.log('Generate report'),
-      variant: 'bordered' as const,
-    },
-    {
-      id: '3',
-      label: 'Export Data',
-      description: 'Download your data',
-      icon: Download,
-      onClick: () => console.log('Export data'),
-      variant: 'bordered' as const,
-    },
-    {
-      id: '4',
-      label: 'Settings',
-      description: 'Configure your dashboard',
-      icon: Settings,
-      onClick: () => console.log('Open settings'),
-      variant: 'bordered' as const,
     },
   ];
 
@@ -293,7 +253,7 @@ export default function DashboardPage() {
           <AIInsights insights={aiInsights} loading={isLoading} />
 
           {/* Quick Actions */}
-          <QuickActions actions={quickActions} loading={isLoading} />
+          <QuickActions />
         </div>
       </div>
     </div>

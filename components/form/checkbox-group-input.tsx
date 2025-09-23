@@ -1,12 +1,12 @@
 import { useForm } from '@/contexts/FormContext';
 import { Checkbox, CheckboxGroup, CheckboxGroupProps } from '@heroui/react';
 
-interface CheckboxGroupInputProps extends CheckboxGroupProps {
+export interface CheckboxGroupInputProps extends CheckboxGroupProps {
   options: { label: string; value: string }[];
   name: string;
 }
 
-export default function CheckboxGroupInput({
+export function CheckboxGroupInput({
   name,
   options,
   ...props
@@ -19,7 +19,13 @@ export default function CheckboxGroupInput({
       isDisabled={formik.isSubmitting}
       isInvalid={!!formik.errors[name]}
       errorMessage={formik.errors[name] as string}
-      value={formik.values[name] ?? []}
+      value={
+        Array.isArray(formik.values[name])
+          ? formik.values[name]
+          : formik.values[name]
+            ? [formik.values[name]]
+            : []
+      }
       onValueChange={selectedValues => {
         formik.setFieldValue(name, selectedValues);
       }}

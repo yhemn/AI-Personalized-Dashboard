@@ -8,9 +8,16 @@ export async function middleware(request: NextRequest) {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    if (user && pathname.startsWith('/auth')) {
+
+    // Allow access to onboarding page for authenticated users
+    if (
+      user &&
+      pathname.startsWith('/auth') &&
+      pathname !== '/auth/onboarding'
+    ) {
       return NextResponse.redirect(new URL('/dashboard', request.url));
     }
+
     if (!user && pathname.startsWith('/dashboard')) {
       return NextResponse.redirect(
         new URL(`/auth/sign-in?r=${pathname}`, request.url)
