@@ -1,39 +1,40 @@
-'use client'
+'use client';
 
-import { useForm } from '@/contexts/FormContext'
-import { Slider, SliderProps } from '@heroui/react'
-import React, { useMemo } from 'react'
+import { useForm } from '@/contexts/FormContext';
+import { Slider, SliderProps } from '@heroui/react';
+import { useMemo } from 'react';
+import { Controller } from 'react-hook-form';
 
 export type SliderInputProps = SliderProps & {
-  name: string
-}
+  name: string;
+};
 
-export function SliderInput({ name, onChange, ...props }: SliderInputProps) {
-  const formik = useForm()
+export function SliderInput({ name, ...props }: SliderInputProps) {
+  const { formState, control } = useForm();
   const error = useMemo(() => {
-    return formik.touched[name] && formik.errors[name]
-      ? (formik.errors[name] as string)
-      : undefined
-  }, [formik.errors, formik.touched, name])
+    return formState.errors[name]?.message?.toString();
+  }, [formState.errors, name]);
 
   return (
-    <Slider
-      size="sm"
+    <Controller
       name={name}
-      value={formik.values[name] ?? 0}
-      onChange={(value) => {
-        formik.setFieldValue(name, value)
-        return onChange?.(value)
+      render={({ field }) => {
+        const { onChange, ...rest } = field;
+        return (
+          <Slider
+            size="sm"
+            onValueChange={onChange}
+            isDisabled={formState.isSubmitting}
+            isInvalid={!!error}
+            errorMessage={error}
+            showTooltip
+            step={1}
+            {...rest}
+            {...props}
+          />
+        );
       }}
-      onBlur={formik.handleBlur}
-      isDisabled={formik.isSubmitting}
-      isInvalid={!!error}
-      errorMessage={error}
-      aria-invalid={!!error}
-      aria-describedby={error ? `${name}-error` : undefined}
-      showTooltip
-      step={1}
-      {...props}
+      control={control}
     />
-  )
+  );
 }

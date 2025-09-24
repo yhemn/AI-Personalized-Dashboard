@@ -1,8 +1,6 @@
 'use client';
 
 import {
-  Avatar,
-  Badge,
   Button,
   Dropdown,
   DropdownItem,
@@ -21,11 +19,14 @@ import {
   Info,
   LogOut,
   Menu,
+  Moon,
   Settings,
   Shield,
+  Sun,
   User,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useTheme } from 'next-themes';
+import { useEffect, useMemo, useState } from 'react';
 
 interface DashboardHeaderProps {
   onMenuToggle?: () => void;
@@ -89,6 +90,17 @@ const userActions = [
 export function DashboardHeader({ onMenuToggle }: DashboardHeaderProps) {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const currentTheme = useMemo(
+    () => (resolvedTheme === 'dark' ? 'dark' : 'light'),
+    [resolvedTheme]
+  );
 
   const getNotificationIcon = (type: string) => {
     switch (type) {
@@ -102,8 +114,6 @@ export function DashboardHeader({ onMenuToggle }: DashboardHeaderProps) {
         return <Bell className="h-4 w-4 text-foreground/50" />;
     }
   };
-
-  const unreadCount = notifications.filter(n => n.unread).length;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-divider">
@@ -123,7 +133,26 @@ export function DashboardHeader({ onMenuToggle }: DashboardHeaderProps) {
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-1.5">
+          {/* Light & Dark Mode Toggle */}
+          <Button
+            size="sm"
+            isIconOnly
+            variant="bordered"
+            radius="full"
+            onPress={() => setTheme(currentTheme === 'dark' ? 'light' : 'dark')}
+          >
+            {mounted ? (
+              currentTheme === 'dark' ? (
+                <Sun size={16} />
+              ) : (
+                <Moon size={16} />
+              )
+            ) : (
+              <Moon size={16} />
+            )}
+          </Button>
+
           {/* Notifications Popover */}
           <Popover
             isOpen={isNotificationsOpen}
@@ -132,16 +161,8 @@ export function DashboardHeader({ onMenuToggle }: DashboardHeaderProps) {
             showArrow
           >
             <PopoverTrigger>
-              <Button
-                isIconOnly
-                variant="light"
-                radius="full"
-                className="overflow-visible"
-                disableRipple
-              >
-                <Badge content={unreadCount} color="danger" size="sm">
-                  <Bell />
-                </Badge>
+              <Button size="sm" isIconOnly variant="bordered" radius="full">
+                <Bell size={16} />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-80 p-0">
@@ -196,12 +217,9 @@ export function DashboardHeader({ onMenuToggle }: DashboardHeaderProps) {
             placement="bottom-end"
           >
             <DropdownTrigger>
-              <Avatar
-                role="button"
-                className="cursor-pointer"
-                name="John Doe"
-                radius="full"
-              />
+              <Button size="sm" isIconOnly variant="bordered" radius="full">
+                <User size={16} />
+              </Button>
             </DropdownTrigger>
             <DropdownMenu aria-label="User menu" className="w-64">
               <DropdownSection title="Account" showDivider>
@@ -221,6 +239,8 @@ export function DashboardHeader({ onMenuToggle }: DashboardHeaderProps) {
                   key="logout"
                   startContent={<LogOut className="h-4 w-4" />}
                   className="text-danger"
+                  as={'a'}
+                  href="/auth/sign-out"
                 >
                   Sign out
                 </DropdownItem>

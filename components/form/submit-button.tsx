@@ -12,7 +12,7 @@ export default function SubmitButton({
   className,
   ...props
 }: SubmitButtonProps) {
-  const formik = useForm();
+  const { formState } = useForm();
 
   return (
     <Button
@@ -20,9 +20,8 @@ export default function SubmitButton({
       color="primary"
       variant="solid"
       className={cn('rounded', className)}
-      isDisabled={formik.isSubmitting}
-      isLoading={formik.isSubmitting}
-      onPress={() => formik.handleSubmit()}
+      isDisabled={formState.isSubmitting}
+      isLoading={formState.isSubmitting}
       {...props}
     >
       {children}

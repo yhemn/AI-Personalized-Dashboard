@@ -1,3 +1,5 @@
+'use client';
+
 import { useForm } from '@/contexts/FormContext';
 import cn from '@/lib/cn';
 import { Button, ButtonProps } from '@heroui/react';
@@ -12,7 +14,7 @@ export default function ResetButton({
   className,
   ...props
 }: ResetButtonProps) {
-  const formik = useForm();
+  const { formState, reset } = useForm();
 
   return (
     <Button
@@ -20,8 +22,8 @@ export default function ResetButton({
       color="default"
       variant="light"
       className={cn('rounded', className)}
-      isDisabled={formik.isSubmitting}
-      onPress={() => formik.resetForm()}
+      isDisabled={formState.isSubmitting}
+      onPress={() => reset()}
       {...props}
     >
       {children}

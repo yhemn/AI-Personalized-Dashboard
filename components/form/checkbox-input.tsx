@@ -1,11 +1,12 @@
-'use client'
+'use client';
 
-import { useForm } from '@/contexts/FormContext'
-import { Checkbox, CheckboxProps } from '@heroui/react'
-import React, { useMemo } from 'react'
+import { useForm } from '@/contexts/FormContext';
+import { Checkbox, CheckboxProps } from '@heroui/react';
+import { useMemo } from 'react';
+import { Controller } from 'react-hook-form';
 
 interface CheckboxInputProps extends CheckboxProps {
-  name: string
+  name: string;
 }
 
 export function CheckboxInput({
@@ -13,34 +14,36 @@ export function CheckboxInput({
   children,
   ...props
 }: CheckboxInputProps) {
-  const formik = useForm()
+  const { formState, control } = useForm();
   const error = useMemo(
-    () => formik.touched[name] && (formik.errors[name] as string),
-    [formik.errors, formik.touched, name],
-  )
+    () => formState.errors[name]?.message?.toString(),
+    [formState.errors, name]
+  );
 
   return (
-    <Checkbox
+    <Controller
       name={name}
-      size="sm"
-      value={name}
-      isDisabled={formik.isSubmitting}
-      onValueChange={(isChecked) => formik.setFieldValue(name, isChecked)}
-      onBlur={(event) => {
-        formik.setFieldTouched(name, true, false)
-        formik.handleBlur(event)
+      render={({ field }) => {
+        const { onChange, ...rest } = field;
+        return (
+          <Checkbox
+            size="sm"
+            isDisabled={formState.isSubmitting}
+            onValueChange={onChange}
+            checked={field.value as boolean}
+            isInvalid={!!error}
+            classNames={{
+              base: 'items-start',
+              label: '-mt-1',
+            }}
+            {...rest}
+            {...props}
+          >
+            <p className="text-gray">{children}</p>
+          </Checkbox>
+        );
       }}
-      checked={formik.values[name] as boolean}
-      isInvalid={!!error}
-      classNames={{
-        base: 'items-start',
-        label: '-mt-1',
-      }}
-      aria-invalid={!!error}
-      aria-describedby={error ? `${name}-error` : undefined}
-      {...props}
-    >
-      <p className="text-gray">{children}</p>
-    </Checkbox>
-  )
+      control={control}
+    />
+  );
 }

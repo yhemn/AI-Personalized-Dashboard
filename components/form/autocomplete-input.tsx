@@ -7,6 +7,7 @@ import {
   AutocompleteProps,
 } from '@heroui/react';
 import { useMemo } from 'react';
+import { Controller } from 'react-hook-form';
 
 interface AutocompleteInputProps extends AutocompleteProps {
   name: string;
@@ -18,36 +19,39 @@ export function AutocompleteInput({
   options,
   ...props
 }: Omit<AutocompleteInputProps, 'children'>) {
-  const formik = useForm();
+  const { formState, control } = useForm();
   const error = useMemo(
-    () => formik.touched[name] && (formik.errors[name] as string),
-    [formik.errors, formik.touched, name]
+    () => formState.errors[name]?.message?.toString(),
+    [formState.errors, name]
   );
 
   return (
-    <Autocomplete
+    <Controller
       name={name}
-      selectedKey={formik.values[name] as string}
-      isDisabled={formik.isSubmitting}
-      size="sm"
-      onSelectionChange={key => {
-        formik.setFieldValue(name, key?.toString() ?? '');
+      render={({ field }) => {
+        const { onChange, value, ...rest } = field;
+        return (
+          <Autocomplete
+            selectedKey={value as string}
+            isDisabled={formState.isSubmitting}
+            size="sm"
+            onSelectionChange={key => {
+              onChange(key?.toString() ?? '');
+            }}
+            isInvalid={!!error}
+            errorMessage={error}
+            {...rest}
+            {...props}
+          >
+            {options.map(opt => (
+              <AutocompleteItem key={typeof opt === 'string' ? opt : opt.value}>
+                {typeof opt === 'string' ? opt : opt.label}
+              </AutocompleteItem>
+            ))}
+          </Autocomplete>
+        );
       }}
-      onBlur={event => {
-        formik.setFieldTouched(name, true, false);
-        formik.handleBlur(event);
-      }}
-      isInvalid={!!error}
-      errorMessage={error}
-      aria-invalid={!!error}
-      aria-describedby={error ? `${name}-error` : undefined}
-      {...props}
-    >
-      {options.map(opt => (
-        <AutocompleteItem key={typeof opt === 'string' ? opt : opt.value}>
-          {typeof opt === 'string' ? opt : opt.label}
-        </AutocompleteItem>
-      ))}
-    </Autocomplete>
+      control={control}
+    />
   );
 }

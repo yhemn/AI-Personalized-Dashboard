@@ -3,37 +3,36 @@
 import { useForm } from '@/contexts/FormContext';
 import { Input, InputProps } from '@heroui/react';
 import { useMemo } from 'react';
+import { Controller } from 'react-hook-form';
 
 export type TextInputProps = InputProps & {
   name: string;
 };
 
-export function TextInput({ name, onChange, ...props }: TextInputProps) {
-  const formik = useForm();
+export function TextInput({ name, ...props }: TextInputProps) {
+  const { formState, control } = useForm();
   const error = useMemo(() => {
-    return formik.touched[name] && formik.errors[name]
-      ? (formik.errors[name] as string)
-      : undefined;
-  }, [formik.errors, formik.touched, name]);
+    return formState.errors[name]?.message?.toString();
+  }, [formState.errors, name]);
 
   return (
-    <Input
-      size="sm"
+    <Controller
       name={name}
-      value={formik.values[name] || ''}
-      onChange={event => {
-        formik.handleChange(event);
-        return onChange?.(event);
+      render={({ field }) => {
+        const { ...rest } = field;
+        return (
+          <Input
+            size="sm"
+            isInvalid={!!error}
+            errorMessage={error}
+            formNoValidate={false}
+            radius="md"
+            {...rest}
+            {...props}
+          />
+        );
       }}
-      onBlur={formik.handleBlur}
-      isDisabled={formik.isSubmitting}
-      isInvalid={!!error}
-      errorMessage={error}
-      aria-invalid={!!error}
-      aria-describedby={error ? `${name}-error` : undefined}
-      formNoValidate={false}
-      radius="md"
-      {...props}
+      control={control}
     />
   );
 }

@@ -1,24 +1,18 @@
-import { FormikProps } from 'formik'
-import * as Yup from 'yup'
-import { createContext, useContext } from 'react'
+import { createContext, useContext } from 'react';
+import { UseFormReturn } from 'react-hook-form';
 
-type FormContextType<T> = {
-  formik: FormikProps<T>
-}
+type FormContextType = {
+  form: UseFormReturn;
+};
 
-export const FormContext = createContext<FormContextType<any> | undefined>(
-  undefined,
-)
+export const FormContext = createContext<FormContextType | undefined>(
+  undefined
+);
 
-export function useForm<T extends Yup.AnyObject>(
-  initialFormik?: FormikProps<T>,
-): FormikProps<T> {
-  const context = useContext(FormContext)
-  if (!context) {
-    if (initialFormik) {
-      return initialFormik
-    }
-    throw new Error('useForm must be used within a <Form> component')
-  }
-  return context.formik
+export function useForm() {
+  const context = useContext(FormContext);
+  if (!context)
+    throw new Error('useForm must be used within a <Form> component');
+
+  return context.form;
 }
