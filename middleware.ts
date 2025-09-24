@@ -13,7 +13,8 @@ export async function middleware(request: NextRequest) {
     if (
       user &&
       pathname.startsWith('/auth') &&
-      pathname !== '/auth/onboarding'
+      pathname !== '/auth/onboarding' &&
+      pathname !== '/auth/sign-out'
     ) {
       return NextResponse.redirect(new URL('/dashboard', request.url));
     }
