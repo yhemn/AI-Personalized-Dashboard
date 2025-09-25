@@ -9,6 +9,7 @@ import {
   ShoppingCart,
   Users,
 } from 'lucide-react';
+import { Controller } from 'react-hook-form';
 
 const roleOptions = [
   {
@@ -38,7 +39,7 @@ const roleOptions = [
 ];
 
 export default function RoleSelectionStep() {
-  const formik = useForm();
+  const {} = useForm();
 
   return (
     <div className="space-y-8">
@@ -59,54 +60,62 @@ export default function RoleSelectionStep() {
 
       {/* Role Selection */}
       <div className="max-w-2xl mx-auto">
-        <RadioGroup
-          value={formik.values.role}
-          onValueChange={value => formik.setFieldValue('role', value)}
-          className="space-y-3"
-        >
-          {roleOptions.map(role => {
-            const IconComponent = role.icon;
-            const isSelected = formik.values.role === role.value;
-
+        <Controller
+          name="role"
+          render={({ field }) => {
+            const { onChange, ...rest } = field;
             return (
-              <Card
-                key={role.value}
-                className={`cursor-pointer transition-all duration-200 ${
-                  isSelected
-                    ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                    : 'border-content3 hover:border-primary-300'
-                }`}
-                isPressable
-                onPress={() => formik.setFieldValue('role', role.value)}
+              <RadioGroup
+                onValueChange={value => onChange(value)}
+                className="space-y-3"
+                {...rest}
               >
-                <CardBody className="p-4">
-                  <div className="flex items-center gap-4">
-                    <div
-                      className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
+                {roleOptions.map(role => {
+                  const IconComponent = role.icon;
+                  const isSelected = field.value === role.value;
+
+                  return (
+                    <Card
+                      key={role.value}
+                      className={`cursor-pointer transition-all duration-200 ${
                         isSelected
-                          ? 'bg-primary-500 text-white'
-                          : 'bg-content2 text-foreground-600'
+                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                          : 'border-content3 hover:border-primary-300'
                       }`}
+                      isPressable
+                      onPress={() => onChange(role.value)}
                     >
-                      <IconComponent className="w-5 h-5" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <Radio value={role.value} className="mr-0" />
-                        <h3 className="font-medium text-foreground">
-                          {role.label}
-                        </h3>
-                      </div>
-                      <p className="text-sm text-foreground-600 mt-1">
-                        {role.description}
-                      </p>
-                    </div>
-                  </div>
-                </CardBody>
-              </Card>
+                      <CardBody className="p-4">
+                        <div className="flex items-center gap-4">
+                          <div
+                            className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
+                              isSelected
+                                ? 'bg-primary-500 text-white'
+                                : 'bg-content2 text-foreground-600'
+                            }`}
+                          >
+                            <IconComponent className="w-5 h-5" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2">
+                              <Radio value={role.value} className="mr-0" />
+                              <h3 className="font-medium text-foreground">
+                                {role.label}
+                              </h3>
+                            </div>
+                            <p className="text-sm text-foreground-600 mt-1">
+                              {role.description}
+                            </p>
+                          </div>
+                        </div>
+                      </CardBody>
+                    </Card>
+                  );
+                })}
+              </RadioGroup>
             );
-          })}
-        </RadioGroup>
+          }}
+        />
       </div>
 
       {/* Info */}
