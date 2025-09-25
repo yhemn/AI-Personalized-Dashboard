@@ -16,7 +16,7 @@
     "@internationalized/date": "3.9.0",
     "@supabase/ssr": "0.7.0",
     "@supabase/supabase-js": "2.57.4",
-    "@tabler/icons-react": "^3.34.1",
+    "@tabler/icons-react": "^3.35.0",
     "@types/recharts": "^2.0.1",
     "@types/yup": "^0.32.0",
     "clsx": "^2.1.1",

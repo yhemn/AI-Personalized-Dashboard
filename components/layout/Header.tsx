@@ -1,13 +1,14 @@
 'use client';
 
+import useAuth from '@/hooks/useAuth';
 import { Button } from '@heroui/react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
 export function Header() {
+  const { isLoggedIn } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'Features', href: '#features' },
@@ -58,16 +59,16 @@ export function Header() {
           <div className="hidden lg:flex items-center space-x-3 xl:space-x-4">
             <Button
               as={Link}
-              href="/auth/sign-in"
+              href={isLoggedIn ? '/dashboard' : '/auth/sign-in'}
               variant="ghost"
               size="sm"
               className="text-foreground/70 hover:text-foreground hover:bg-foreground/5 text-sm font-medium px-4 py-2 rounded-lg transition-all duration-200"
             >
-              Sign In
+              {isLoggedIn ? 'Dashboard' : 'Sign In'}
             </Button>
             <Button
               as={Link}
-              href="/auth/sign-up"
+              href={isLoggedIn ? '/dashboard' : '/auth/sign-up'}
               color="primary"
               size="sm"
               className="font-semibold text-sm px-6 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 bg-gradient-to-r from-primary to-secondary"
@@ -111,13 +112,13 @@ export function Header() {
               <div className="pt-4 space-y-3">
                 <Button
                   as={Link}
-                  href="/auth/sign-in"
+                  href={isLoggedIn ? '/dashboard' : '/auth/sign-in'}
                   variant="ghost"
                   size="sm"
                   className="w-full justify-center text-foreground/70 hover:text-foreground hover:bg-foreground/5 text-sm font-medium py-3 rounded-lg transition-all duration-200"
                   onPress={() => setIsMenuOpen(false)}
                 >
-                  Sign In
+                  {isLoggedIn ? 'Dashboard' : 'Sign In'}
                 </Button>
                 <Button
                   as={Link}

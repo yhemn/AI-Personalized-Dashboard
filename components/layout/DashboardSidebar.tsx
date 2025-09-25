@@ -2,16 +2,16 @@
 
 import { Button } from '@heroui/react';
 import {
-  BarChart3,
-  Calendar,
-  FileText,
-  Home,
-  MessageSquare,
-  Settings,
-  Shield,
-  Users,
-  Zap,
-} from 'lucide-react';
+  IconBolt,
+  IconCalendar,
+  IconChartBar,
+  IconFileText,
+  IconHome,
+  IconMessages,
+  IconSettings,
+  IconShield,
+  IconUsers,
+} from '@tabler/icons-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -21,15 +21,15 @@ interface DashboardSidebarProps {
 }
 
 const navigation = [
-  { name: 'Overview', href: '/dashboard', icon: Home },
-  { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
-  { name: 'Users', href: '/dashboard/users', icon: Users },
-  { name: 'Messages', href: '/dashboard/messages', icon: MessageSquare },
-  { name: 'Calendar', href: '/dashboard/calendar', icon: Calendar },
-  { name: 'Reports', href: '/dashboard/reports', icon: FileText },
-  { name: 'Automation', href: '/dashboard/automation', icon: Zap },
-  { name: 'Security', href: '/dashboard/security', icon: Shield },
-  { name: 'Settings', href: '/dashboard/settings', icon: Settings },
+  { name: 'Overview', href: '/dashboard', icon: IconHome },
+  { name: 'Analytics', href: '/dashboard/analytics', icon: IconChartBar },
+  { name: 'Users', href: '/dashboard/users', icon: IconUsers },
+  { name: 'Messages', href: '/dashboard/messages', icon: IconMessages },
+  { name: 'Calendar', href: '/dashboard/calendar', icon: IconCalendar },
+  { name: 'Reports', href: '/dashboard/reports', icon: IconFileText },
+  { name: 'Automation', href: '/dashboard/automation', icon: IconBolt },
+  { name: 'Security', href: '/dashboard/security', icon: IconShield },
+  { name: 'Settings', href: '/dashboard/settings', icon: IconSettings },
 ];
 
 export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
@@ -64,8 +64,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
                   key={`navigationItem-${index}`}
                   variant={isActive ? 'solid' : 'light'}
                   color={isActive ? 'primary' : 'default'}
-                  startContent={<item.icon className="h-4 w-4" />}
-                  radius={isActive ? 'lg' : 'none'}
+                  startContent={<item.icon size={16} />}
                   className="justify-start"
                   as={Link}
                   href={item.href}
@@ -81,7 +80,7 @@ export function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
           <div className="p-3 border-t border-divider">
             <div className="bg-primary/10 rounded-lg p-3">
               <div className="flex items-center space-x-2 mb-2">
-                <Zap className="h-4 w-4 text-primary" />
+                <IconBolt size={16} className="text-primary" />
                 <div className="text-sm font-medium">Upgrade Plan</div>
               </div>
               <Button size="sm" color="primary" className="w-full">

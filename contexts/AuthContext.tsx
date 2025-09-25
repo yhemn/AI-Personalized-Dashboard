@@ -9,11 +9,13 @@ export const AuthContext = createContext<{
   userAuth: User | null;
   setProfile: Dispatch<UserProfile | null>;
   setUserAuth: Dispatch<User | null>;
+  isLoggedIn: boolean;
 }>({
   profile: null,
   userAuth: null,
   setProfile: () => {},
   setUserAuth: () => {},
+  isLoggedIn: false,
 });
 
 interface AuthProviderProps {
@@ -34,7 +36,13 @@ export function AuthProvider({
 
   return (
     <AuthContext.Provider
-      value={{ profile, userAuth, setUserAuth, setProfile }}
+      value={{
+        profile,
+        userAuth,
+        setUserAuth,
+        setProfile,
+        isLoggedIn: Boolean(userAuth),
+      }}
     >
       {children}
     </AuthContext.Provider>
